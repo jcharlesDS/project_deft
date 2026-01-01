@@ -165,7 +165,7 @@ Le projet compare **6 classifieurs différents** :
 | **Naive Bayes (Count)** | CountVectorizer | Simple, efficace |
 | **Complement Naive Bayes** | TF-IDF | Optimisé pour classes déséquilibrées |
 | **Logistic Regression** | TF-IDF | Modèle linéaire robuste |
-| **Linear SVM** | TF-IDF | Haute performance, bon généralisation |
+| **Linear SVM** | TF-IDF | Haute performance, bonne généralisation |
 | **Decision Tree** | TF-IDF | Interprétable, non-linéaire |
 
 ### Configuration des Vectoriseurs
