@@ -1,6 +1,6 @@
 # Prédiction des Partis Politiques
 
-Application d'analyse et de classification automatique de discours parlementaires européens (1999-2004) utilisant des techniques de traitement du langage naturel (NLP) et d'apprentissage automatique.
+Classification automatique de discours parlementaires européens (1999-2004) utilisant des techniques de traitement du langage naturel (NLP) et d'apprentissage automatique.
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.40-red)
