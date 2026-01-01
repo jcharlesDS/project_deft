@@ -15,6 +15,37 @@ from data_loader import DataLoader
 from classifiers import ClassifierFactory
 from evaluation_metrics import EvaluationMetrics
 
+# Initialiser NLTK au démarrage de l'application
+@st.cache_resource
+def setup_nltk():
+    """Configure NLTK et télécharge les stopwords nécessaires"""
+    try:
+        import nltk
+        import ssl
+        
+        # Contourner les problèmes SSL
+        try:
+            _create_unverified_https_context = ssl._create_unverified_context
+        except AttributeError:
+            pass
+        else:
+            ssl._create_default_https_context = _create_unverified_https_context
+        
+        # Télécharger les stopwords si nécessaire
+        try:
+            from nltk.corpus import stopwords
+            stopwords.words('french')
+        except LookupError:
+            nltk.download('stopwords', quiet=True)
+        
+        return True
+    except Exception as e:
+        st.warning(f"Impossible de configurer NLTK: {e}")
+        return False
+
+# Configurer NLTK au démarrage
+nltk_ready = setup_nltk()
+
 # Configuration de la page Streamlit
 st.set_page_config(
     page_title="Prédiction - Partis Politiques",
@@ -129,7 +160,7 @@ if page == "Accueil":
             
         ### Données
         - **Source**: Discours parlementaires européens (1999-2004).
-        - **Documents**: ~19,000 (train) + ~13,000 (test).
+        - **Documents**: ~19,000 (train) + ~5100 (test). [unilingue] / 58k (train) + 15k (test) [multilingue]
         - **Langues**: Français, Anglais, Italien.
         - **Classes**: 5 partis politiques principaux.
         
@@ -140,7 +171,7 @@ if page == "Accueil":
             st.rerun()
     
     with col2:
-        st.metric("Documents", "32,000+")
+        st.metric("Documents", "74k+")
         st.metric("Langues", "3")
         st.metric("Partis", "5")
         st.metric("Modèles", "6")
@@ -512,7 +543,6 @@ elif page == "À propos":
     ### Données
     Les données proviennent des discours parlementaires européens entre 1999 et 2004,
     couvrant trois langues principales: français, anglais et italien.
-    Le corpus comprend environ 32,000 documents annotés avec cinq partis politiques principaux.
     
     ### Technologies Utilisées
     - **Langage**: Python

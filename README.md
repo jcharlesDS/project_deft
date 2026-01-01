@@ -64,9 +64,9 @@ project_deft/
 │   └── deft09.dtd
 │
 ├── test/                       # Données de test (XML)
-│   ├── deft09_parlement_test_fr.xml
-│   ├── deft09_parlement_test_en.xml
-│   └── deft09_parlement_test_it.xml
+│   ├── deft09_parlement_test_fr_cleaned.xml
+│   ├── deft09_parlement_test_en_cleaned.xml
+│   └── deft09_parlement_test_it_cleaned.xml
 │
 ├── reference/                  # Fichiers de référence (labels)
 │   ├── deft09_parlement_ref_fr.txt
@@ -82,6 +82,7 @@ project_deft/
 ├── data_loader.py              # Chargement et parsing des données XML
 ├── evaluation_metrics.py       # Calcul des métriques de performance
 ├── visualizer.py               # Génération des graphiques
+├── remove_duplicates.py        # Nettoyage des corpus de test
 ├── main.py                     # Script principal d'analyse
 ├── streamlit_app.py            # Application web interactive
 ├── requirements.txt            # Dépendances Python
@@ -115,6 +116,7 @@ Les packages suivants seront installés :
 - `matplotlib` : Visualisations
 - `seaborn` : Graphiques statistiques
 - `scikit-learn` : Algorithmes de machine learning
+- `nltk` : NLP (ici, utilisation des stopwords)
 
 ---
 
@@ -170,10 +172,12 @@ Le projet compare **6 classifieurs différents** :
 
 ### Configuration des Vectoriseurs
 
-- **max_features** : 3000-5000 (selon le modèle)
-- **ngram_range** : (1, 2) - unigrammes et bigrammes
-- **min_df** : 2 - fréquence minimale des termes
-- **max_df** : 0.95 - filtrage des termes trop fréquents
+- **max_features** : 3000-12000 (selon le modèle)
+- **ngram_range** : (1, 3) - unigrammes, bigrammes et trigrammes
+- **min_df** : 2 - 5 (selon le modèle) - fréquence minimale des termes
+- **max_df** : 0.90 - 0.95 (selon le modèle) - filtrage des termes trop fréquents
+- **sublinear_tf** : True - atténuation de l'impact des mots très fréquents
+- **stop_words** : retirer les mots vides
 
 ---
 
@@ -212,8 +216,8 @@ Le corpus contient des discours de **5 groupes politiques** du Parlement europé
 
 ### Statistiques
 - **~19,000 documents** d'entraînement
-- **~13,000 documents** de test
-- **~32,000 documents** au total
+- **~5,100 documents** de test
+- **~74,000 documents** au total
 - **3 langues** supportées
 - **5 classes** (partis politiques)
 
@@ -238,11 +242,12 @@ Le corpus contient des discours de **5 groupes politiques** du Parlement europé
 - **numpy** : Calculs numériques
 - **matplotlib** : Visualisations statiques
 - **seaborn** : Graphiques statistiques esthétiques
+- **nltk** : NLP
 
 ### Traitement du Langage Naturel
 - **TfidfVectorizer** : Vectorisation TF-IDF
 - **CountVectorizer** : Vectorisation par comptage
-- **N-grammes** (unigrammes + bigrammes)
+- **N-grammes** (unigrammes + bigrammes + trigrammes)
 
 ---
 

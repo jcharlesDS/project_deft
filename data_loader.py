@@ -113,7 +113,8 @@ class DataLoader:
         Returns:
             Tuple[List[str], List[str], List[Dict]]: Textes, labels de référence (partis politiques), et les informations extraites des documents XML.
         """
-        xml_path = f"{self.base_path}/test/deft09_parlement_test_{lang}.xml"
+        # Utiliser les fichiers nettoyés (sans doublons)
+        xml_path = f"{self.base_path}/test/deft09_parlement_test_{lang}_cleaned.xml"
         ref_path = f"{self.base_path}/reference/deft09_parlement_ref_{lang}.txt"
         
         documents = self.parse_xml(xml_path) # Charger les documents de test (sans labels)
